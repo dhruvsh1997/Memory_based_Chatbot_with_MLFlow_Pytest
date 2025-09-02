@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 420px;
+      height: 600px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #4a90e2;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .chatbox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: #4a90e2;
+      color: #fff;
+      border-bottom-right-radius: 5px;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: #f1f0f0;
+      color: #333;
+      border-bottom-left-radius: 5px;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: none;
+      padding: 15px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .chat-input button {
+      background: #4a90e2;
+      border: none;
+      color: white;
+      padding: 0 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .chat-input button:hover {
+      background: #357ab8;
+    }
+
+    /* Loader animation */
+    .loader {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 10px 14px;
+      background: #f1f0f0;
+      border-radius: 15px;
+      width: fit-content;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #555;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.6); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">Chat with our AI Bot</div>
+    <div id="chatbox" class="chatbox"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Say something...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatbox = document.getElementById('chatbox');
+    const userInput = document.getElementById('userInput');
+
+    function appendMessage(content, type) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', type === 'user' ? 'user-message' : 'bot-message');
+      msg.innerText = content;
+      chatbox.appendChild(msg);
+      chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll
+    }
+
+    function showLoader() {
+      const loader = document.createElement('div');
+      loader.classList.add('loader');
+      loader.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      loader.id = "loader";
+      chatbox.appendChild(loader);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function removeLoader() {
+      const loader = document.getElementById('loader');
+      if (loader) loader.remove();
+    }
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user');
+      userInput.value = "";
+
+      // Show typing loader
+      showLoader();
+
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+
+        // Remove loader and show bot response
+        removeLoader();
+        appendMessage(data.response || data.error, 'bot');
+      } catch (error) {
+        removeLoader();
+        appendMessage("⚠️ Error connecting to server.", 'bot');
+      }
+    }
+
+    // Send on Enter key
+    userInput.addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>

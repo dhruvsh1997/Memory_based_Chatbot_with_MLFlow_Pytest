@@ -1,0 +1,39 @@
+timestamp,question,answer,response_time,input_tokens,output_tokens,total_tokens
+2025-08-30 19:14:21,What is ACID Properties?,"**ACID Properties**
+======================
+
+ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure the reliability and integrity of database transactions. These properties are essential for maintaining the consistency and accuracy of data in a database.
+
+### **Properties:**
+
+1. **Atomicity**: Ensures that a transaction is treated as a single, indivisible unit of work. If any part of the transaction fails, the entire transaction is rolled back and the database is returned to its previous state.
+2. **Consistency**: Ensures that the database remains in a consistent state, even after multiple transactions have been applied. The database must always satisfy the integrity constraints defined in the schema.
+3. **Isolation**: Ensures that multiple transactions can be executed concurrently without interfering with each other. The effects of one transaction are not visible to other transactions until it is committed.
+4. **Durability**: Ensures that once a transaction is committed, its effects are permanent and survive even in the event of a system crash or failure.
+
+### **Example:**
+
+Suppose we have a banking system and we want to transfer $100 from account A to account B. The transaction would involve the following steps:
+
+1. Debit $100 from account A
+2. Credit $100 to account B
+
+If any of these steps fail, the entire transaction should be rolled back to maintain the consistency of the database. If the debit step succeeds but the credit step fails, the database would be inconsistent, and the customer would lose $100.
+
+By following the ACID properties, the database ensures that either both steps succeed or neither step succeeds, maintaining the integrity and consistency of the data.
+
+### **Importance:**
+
+The ACID properties are essential for ensuring the reliability and integrity of database transactions. They provide a foundation for building robust and fault-tolerant database systems that can handle concurrent transactions and maintain data consistency, even in the presence of failures or errors.
+
+### **Real-World Applications:**
+
+ACID properties are widely used in various applications, including:
+
+* Banking and financial systems
+* E-commerce platforms
+* Online transaction processing systems
+* Database management systems (DBMS)
+* Cloud storage and data management systems
+
+In summary, ACID properties are a fundamental concept in database systems that ensure the reliability, integrity, and consistency of data by treating transactions as atomic, consistent, isolated, and durable units of work.",1.6616129875183105,41,491,532

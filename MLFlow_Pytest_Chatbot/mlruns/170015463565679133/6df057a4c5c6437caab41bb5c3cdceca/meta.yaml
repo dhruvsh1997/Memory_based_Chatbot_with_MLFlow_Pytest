@@ -1,0 +1,15 @@
+artifact_uri: /home/dhruvs2/Music/TestCases/PytestCases/MLFlow_Chatbot_Flask_Pytest/MLFlow_Pytest_Chatbot/mlruns/170015463565679133/6df057a4c5c6437caab41bb5c3cdceca/artifacts
+end_time: 1756562716980
+entry_point_name: ''
+experiment_id: '170015463565679133'
+lifecycle_stage: active
+run_id: 6df057a4c5c6437caab41bb5c3cdceca
+run_name: chat_session
+run_uuid: 6df057a4c5c6437caab41bb5c3cdceca
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756562716922
+status: 3
+tags: []
+user_id: dhruvs2@chetu.com

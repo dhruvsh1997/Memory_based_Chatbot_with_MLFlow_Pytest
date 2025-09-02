@@ -1,0 +1,7 @@
+timestamp,question,answer,response_time,input_tokens,output_tokens,total_tokens
+2025-08-30 19:35:16,in which Country Suiz Canal is?,"The Suez Canal is located in Egypt. It connects the Mediterranean Sea to the Red Sea, passing through the Isthmus of Suez in northeastern Egypt.",0.3651173114776611,50,33,83
+2025-08-30 19:39:12,And where is Panama Canal?,"The Panama Canal is a 51-mile (82 km) long shipping canal that connects the Atlantic Ocean to the Pacific Ocean, crossing the Isthmus of Panama in Central America. It is located in the country of Panama, which is a narrow strip of land that connects North America to South America.
+
+The canal runs from the city of Colón on the Atlantic side to the city of Panama City on the Pacific side, passing through the Gatun Locks, the Gaillard Cut, and the Miraflores Locks. The canal is one of the most important and busiest waterways in the world, allowing ships to pass through it and saving time, fuel, and resources by avoiding the need to navigate around the southern tip of South America.
+
+The Panama Canal is considered one of the greatest engineering achievements of the 20th century and is a vital artery of international trade, with over 14,000 vessels passing through it every year.",0.732496976852417,48,190,238
