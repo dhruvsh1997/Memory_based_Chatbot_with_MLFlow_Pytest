@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: mlflow_pytest_chatbot_app
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./.env
+    environment:
+      # Point the app to the MLflow tracking server service below
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      FLASK_ENV: production
+    depends_on:
+      - mlflow
+
+  mlflow:
+    # Reuse the same image so mlflow is already installed
+    build: .
+    container_name: mlflow_tracking_server
+    command: >
+      sh -c "
+      mlflow server
+        --host 0.0.0.0
+        --port 5000
+        --backend-store-uri sqlite:////mlflow/mlflow.db
+        --default-artifact-root file:/mlflow/artifacts
+      "
+    ports:
+      # Host 5002 -> Container 5000, so open http://localhost:5002 for the UI
+      - "5002:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    environment:
+      # Optional: make sure the server is verbose enough
+      MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING: "false"
+
+  # Optional: run tests inside a container. Remove if not needed.
+  tests:
+    build: .
+    container_name: mlflow_pytest_chatbot_tests
+    depends_on:
+      - mlflow
+      - app
+    env_file:
+      - ./.env
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    command: pytest -q
+    # comment the next line if you prefer tests not to run on `up`
+    profiles: ["tests"]
+
+volumes:
+  mlflow_data:
