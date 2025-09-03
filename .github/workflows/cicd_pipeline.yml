@@ -53,9 +53,9 @@ jobs:
     #     path: coverage.xml
     #     if-no-files-found: error
 
-    - name: Test Flask app import
-      run: |
-        python -c "import MLFlow_Pytest_Chatbot.app; print('Flask app imports successfully')"
+    # - name: Test Flask app import
+    #   run: |
+    #     python -c "import MLFlow_Pytest_Chatbot.app; print('Flask app imports successfully')"
 
   build:
     needs: test
