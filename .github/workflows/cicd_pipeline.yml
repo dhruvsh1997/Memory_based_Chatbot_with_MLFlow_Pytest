@@ -32,7 +32,7 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=3 --disable-warnings -q --cov=searching --cov-report=xml
+        pytest --maxfail=3 --disable-warnings
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
