@@ -414,7 +414,7 @@ This chatbot project demonstrates **modern ML engineering practices** by combini
 - **🤖 Advanced AI**: State-of-the-art language model integration
 - **📊 Experiment Tracking**: Production-grade monitoring with MLflow
 - **🧪 Quality Assurance**: Automated testing with Pytest
-- **🐳 DevOps**: Containerized deployment ready for any environment
+- **🐳 DevOps**: Containerized deployment ready for any environments
 
 The integration of MLflow and Pytest transforms a simple chatbot into a **professional-grade ML application** suitable for production deployment, continuous monitoring, and iterative improvement.
 

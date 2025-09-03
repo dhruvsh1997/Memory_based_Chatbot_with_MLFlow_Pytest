@@ -9,7 +9,7 @@ services:
     env_file:
       - ./.env
     environment:
-      # Point the app to the MLflow tracking server service below
+      # Point the app to the MLflow tracking server service belows
       MLFLOW_TRACKING_URI: http://mlflow:5000
       FLASK_ENV: production
     depends_on:
