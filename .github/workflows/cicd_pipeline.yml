@@ -55,7 +55,7 @@ jobs:
 
     - name: Test Flask app import
       run: |
-        python -c "import app; print('Flask app imports successfully')"
+        python -c "import MLFlow_Pytest_Chatbot.app; print('Flask app imports successfully')"
 
   build:
     needs: test
