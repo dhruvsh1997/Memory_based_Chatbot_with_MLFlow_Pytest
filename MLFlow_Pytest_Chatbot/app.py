@@ -39,7 +39,7 @@ except Exception as e:
 # Get the Groq API key from environment variables
 # This key is needed to access the Groq language model
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-breakpoint()
+
 # ==================== STEP 3: DEFINE THE CHATBOT CLASS ====================
 class GroqChatbot:
     """
