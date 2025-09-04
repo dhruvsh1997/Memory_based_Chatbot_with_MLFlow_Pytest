@@ -255,7 +255,7 @@ def create_app():
         # Check if a message was provided
         if not user_msg:
             return jsonify({"error": "No message provided"}), 400
-            
+        breakpoint() 
         # Get a response from the chatbot
         result = chatbot.predict(user_msg)
         

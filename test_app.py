@@ -8,6 +8,7 @@ if not hasattr(werkzeug, "__version__"):
 def client():
     app = create_app()
     app.config['TESTING'] = True
+    app.config['DEBUG'] = True   # <-- add this
     with app.test_client() as c:
         yield c
 
