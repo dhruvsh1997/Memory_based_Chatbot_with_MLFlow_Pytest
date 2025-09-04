@@ -42,87 +42,60 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # ==================== STEP 3: DEFINE THE CHATBOT CLASS ====================
 class GroqChatbot:
-    """
-    A chatbot that uses the Groq LLM API to generate responses.
-    This class handles the conversation with the AI model.
-    """
-    
-    def __init__(self, system_prompt="You are a helpful AI assistant."):
+    def __init__(self, system_prompt):
         """
         Initialize the chatbot with a system prompt.
-        
-        Args:
-            system_prompt (str): Instructions that guide the AI's behavior
         """
-        self.system_prompt = system_prompt  # Store the system prompt
-        self.client = None  # Will hold the Groq API client
-        self.message_history = []  # Will store the conversation history
-        
-    def initialize_client(self, api_key):
+        self.system_prompt = system_prompt
+        self.client = None
+        self.message_history = []
+
+    def initialize_client(self, api_key=None):
         """
-        Initialize the Groq API client.
-        
-        Args:
-            api_key (str): The API key for accessing Groq
-            
-        Returns:
-            bool: True if initialization was successful, False otherwise
+        Initialize the Groq API client with the given API key.
+        Falls back to environment variable GROQ_API_KEY if not provided.
         """
-        if api_key:
-            # Create a Groq client with the provided API key
+        api_key = api_key or os.getenv("GROQ_API_KEY")
+
+        if not api_key:
+            print("ERROR: No Groq API key found! Set GROQ_API_KEY in .env or pass explicitly.")
+            return False
+
+        try:
+            # Correct: pass api_key in snake_case
             self.client = Groq(api_key=api_key)
-            
-            # Start the conversation with the system prompt
+            print(f"Groq client initialized with API key prefix: {api_key[:8]}...")
+
+            # Initialize conversation history with system role
             self.message_history = [{"role": "system", "content": self.system_prompt}]
             return True
-        return False
-    
-    def predict(self, question):
-        """
-        Generate a response to the user's question.
-        
-        Args:
-            question (str): The user's question
-            
-        Returns:
-            dict: A dictionary containing the response and metrics
-        """
-        # Check if the client was initialized
-        if not self.client:
-            return {"error": "Client not initialized"}
-            
-        try:
-            # Add the user's question to the conversation history
-            self.message_history.append({"role": "user", "content": question})
-            
-            # Record the start time to measure response time
-            start_time = time.time()
-            
-            # Send the conversation history to the Groq API and get a response
-            response = self.client.chat.completions.create(
-                model="llama-3.3-70b-versatile",  # The model to use
-                messages=self.message_history  # The conversation so far
-            )
-            
-            # Calculate how long the response took
-            response_time = time.time() - start_time
-            
-            # Extract the answer from the response
-            final_answer = response.choices[0].message.content
-            
-            # Add the AI's response to the conversation history
-            self.message_history.append({"role": "assistant", "content": final_answer})
-            
-            # Return the answer and metrics
-            return {
-                "answer": final_answer,
-                "response_time": response_time,
-                "input_tokens": response.usage.prompt_tokens,  # Tokens in the question
-                "output_tokens": response.usage.completion_tokens,  # Tokens in the answer
-                "total_tokens": response.usage.total_tokens  # Total tokens used
-            }
         except Exception as e:
-            # If something goes wrong, return the error message
+            print(f"Failed to initialize Groq client: {e}")
+            return False
+
+    def predict(self, user_input):
+        """
+        Send a message to Groq and return the assistant's response.
+        """
+        if not self.client:
+            return {"error": "Groq client not initialized. Please call initialize_client()."}
+
+        # Append user input to history
+        self.message_history.append({"role": "user", "content": user_input})
+
+        try:
+            print("📡 Sending request to Groq...")
+            response = self.client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=self.message_history
+            )
+
+            assistant_reply = response.choices[0].message.content
+            # Append assistant reply to history
+            self.message_history.append({"role": "assistant", "content": assistant_reply})
+
+            return {"response": assistant_reply}
+        except Exception as e:
             return {"error": str(e)}
 
 # ==================== STEP 4: CHAT HISTORY MANAGER ====================
