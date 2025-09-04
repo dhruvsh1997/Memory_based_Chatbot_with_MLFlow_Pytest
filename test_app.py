@@ -1,5 +1,8 @@
 import pytest
 from MLFlow_Pytest_Chatbot.app import create_app
+import werkzeug
+if not hasattr(werkzeug, "__version__"):
+    werkzeug.__version__ = "3.0.0"  # fake version for compatibility
 
 @pytest.fixture
 def client():
